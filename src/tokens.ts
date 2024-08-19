@@ -1,4 +1,4 @@
-const _YasumuSchemaTokenTypes = [
+const YasumuSchemaTokenType = [
     "ILLEGAL",
     "EOF",
     "IDENTIFIER",
@@ -9,16 +9,13 @@ const _YasumuSchemaTokenTypes = [
     "COLON", // :
 ] as const;
 
-export type YasumuSchemaTokenType = (typeof _YasumuSchemaTokenTypes)[number];
+export type YasumuSchemaTokenType = (typeof YasumuSchemaTokenType)[number];
 
-export const YasumuSchemaTokenTypes = _YasumuSchemaTokenTypes.reduce(
-    (pv, cv) => {
-        // @ts-expect-error
-        pv[cv] = cv;
-        return pv;
-    },
-    {} as { [K in YasumuSchemaTokenType]: K }
-);
+export const YasumuSchemaTokenTypes = YasumuSchemaTokenType.reduce((pv, cv) => {
+    // @ts-expect-error
+    pv[cv] = cv;
+    return pv;
+}, {} as { [K in YasumuSchemaTokenType]: K });
 
 export interface YasumuSchemaTokenSpanPosition {
     line: number;
