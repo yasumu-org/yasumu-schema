@@ -29,7 +29,7 @@ export const YasumuSchemaSpec: YasumuSchemaParasableScript = {
                 required: false,
             },
         },
-        required: false,
+        required: true,
     },
     Block3: {
         type: "code",

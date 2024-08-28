@@ -26,6 +26,13 @@ export class YasumuSchemaParser {
             const [key, value] = this.parseBlock(script);
             blocks[key] = value;
         }
+        for (const [k, v] of Object.entries(script)) {
+            if (v.required && !(k in blocks)) {
+                throw new YasumuSchemaParserError(
+                    `Missing required block '${k}'`
+                );
+            }
+        }
         return blocks;
     }
 
@@ -100,7 +107,6 @@ export class YasumuSchemaParser {
     }
 
     parseKeyPairs(node: YasumuSchemaParsableKeyPairs) {
-        const keys = new Set(Object.keys(node));
         const object: Record<string, any> = {};
         this.consume(YasumuSchemaTokenTypes.LEFT_CURLY_BRACKET);
         while (
@@ -108,7 +114,7 @@ export class YasumuSchemaParser {
             !this.check(YasumuSchemaTokenTypes.RIGHT_CURLY_BRACKET)
         ) {
             const x = this.consume(YasumuSchemaTokenTypes.IDENTIFIER);
-            if (!keys.has(x.value)) {
+            if (!(x.value in node)) {
                 const { line, column } = x.span.start;
                 throw new YasumuSchemaParserError(
                     `Unexpected object key '${x}' (at line ${line}, column ${column})`
@@ -122,7 +128,15 @@ export class YasumuSchemaParser {
                     : this.parseNode(schema.schema);
             object[x.value] = value;
         }
-        this.consume(YasumuSchemaTokenTypes.RIGHT_CURLY_BRACKET);
+        const end = this.consume(YasumuSchemaTokenTypes.RIGHT_CURLY_BRACKET);
+        for (const [k, v] of Object.entries(node)) {
+            if (v.required && !(k in object)) {
+                const { line, column } = end.span.start;
+                throw new YasumuSchemaParserError(
+                    `Missing required object key '${k}' (at line ${line}, column ${column})`
+                );
+            }
+        }
         return object;
     }
 
@@ -168,7 +182,7 @@ export class YasumuSchemaParser {
         const { type, span } = this.currentToken!;
         const { line, column } = span.start;
         throw new YasumuSchemaParserError(
-            `Expected 'true' or 'false', received '${type}' (at line ${line}, column ${column})`
+            `Expected '${YasumuSchemaTokenTypes.TRUE}' or '${YasumuSchemaTokenTypes.FALSE}', received '${type}' (at line ${line}, column ${column})`
         );
     }
 
