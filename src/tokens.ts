@@ -1,21 +1,27 @@
+import { YasumuSchemaUtils } from "./utils";
+
 const YasumuSchemaTokenType = [
     "ILLEGAL",
     "EOF",
     "IDENTIFIER",
+    "TRUE",
+    "FALSE",
+    "NULL",
     "NUMBER",
     "STRING",
     "LEFT_CURLY_BRACKET", // {
     "RIGHT_CURLY_BRACKET", // }
+    "LEFT_SQUARE_BRACKET", // [
+    "RIGHT_SQUARE_BRACKET", // ]
     "COLON", // :
+    "COMMA", // ,
 ] as const;
 
 export type YasumuSchemaTokenType = (typeof YasumuSchemaTokenType)[number];
 
-export const YasumuSchemaTokenTypes = YasumuSchemaTokenType.reduce((pv, cv) => {
-    // @ts-expect-error
-    pv[cv] = cv;
-    return pv;
-}, {} as { [K in YasumuSchemaTokenType]: K });
+export const YasumuSchemaTokenTypes = YasumuSchemaUtils.enum(
+    YasumuSchemaTokenType
+);
 
 export interface YasumuSchemaTokenSpanPosition {
     line: number;

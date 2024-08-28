@@ -178,7 +178,10 @@ export class YasumuSchemaScanner {
             value += this.lexer.advance();
         }
         return {
-            type: YasumuSchemaTokenTypes.IDENTIFIER,
+            type:
+                value in YasumuSchemaScanner._keywords
+                    ? YasumuSchemaScanner._keywords[value]!
+                    : YasumuSchemaTokenTypes.IDENTIFIER,
             value: value,
             span: {
                 start,
@@ -190,7 +193,10 @@ export class YasumuSchemaScanner {
     static offset1Tokens: Record<string, YasumuSchemaTokenType> = {
         "{": YasumuSchemaTokenTypes.LEFT_CURLY_BRACKET,
         "}": YasumuSchemaTokenTypes.RIGHT_CURLY_BRACKET,
+        "[": YasumuSchemaTokenTypes.LEFT_SQUARE_BRACKET,
+        "]": YasumuSchemaTokenTypes.RIGHT_SQUARE_BRACKET,
         ":": YasumuSchemaTokenTypes.COLON,
+        ",": YasumuSchemaTokenTypes.COMMA,
     };
 
     static _escapeSequences: Record<string, string> = {
@@ -201,5 +207,11 @@ export class YasumuSchemaScanner {
         f: "\f",
         b: "\b",
         v: "\v",
+    };
+
+    static _keywords: Record<string, YasumuSchemaTokenType> = {
+        true: YasumuSchemaTokenTypes.TRUE,
+        false: YasumuSchemaTokenTypes.FALSE,
+        null: YasumuSchemaTokenTypes.NULL,
     };
 }

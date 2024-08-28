@@ -1,25 +1,31 @@
 const {
     YasumuSchemaLexer,
     YasumuSchemaScanner,
-    YasumuSchemaTokenTypes,
+    YasumuSchemaParser,
+    YasumuSchemaSpec,
 } = require("../dist");
 
 const content = `
-Kek {
-    Bro: "Hello \\u1234"
+Block1 {
+    Hello: "Hello \\u1234"
+    World: null
 }
+
+Block3 {
+    import "dotenv";
+    const start = () => {};
+    start();
+}
+
+Block2 {}
 `;
 
 const start = () => {
     const lexer = new YasumuSchemaLexer(content);
     const scanner = new YasumuSchemaScanner(lexer);
-    while (true) {
-        const token = scanner.readToken();
-        console.log(JSON.stringify(token));
-        if (token.type === YasumuSchemaTokenTypes.EOF) {
-            break;
-        }
-    }
+    const parser = new YasumuSchemaParser(scanner);
+    const parsed = parser.parse(YasumuSchemaSpec);
+    console.log(JSON.stringify(parsed, null, 4));
 };
 
 start();

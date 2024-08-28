@@ -10,7 +10,8 @@
         "LICENSE"
     ],
     "scripts": {
-        "build": "rimraf ./dist && tsc"
+        "build": "rimraf ./dist && tsc",
+        "example": "node ./example/example.js"
     },
     "repository": {
         "type": "git",
