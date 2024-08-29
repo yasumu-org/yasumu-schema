@@ -91,7 +91,7 @@ export type YasumuSchemaScript = YasumuSchemaParasableScriptToType<
     typeof YasumuSchemaScript
 >;
 
-export const parseYasumuSchemaScript = (content: string) => {
+export const parse = (content: string) => {
     const lexer = new YasumuSchemaLexer(content);
     const scanner = new YasumuSchemaScanner(lexer);
     const parser = new YasumuSchemaParser(scanner);

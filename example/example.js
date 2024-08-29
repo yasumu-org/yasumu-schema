@@ -1,4 +1,4 @@
-const { parseYasumuSchemaScript } = require("../dist");
+const { parse } = require('../dist');
 
 const script = `
 Metadata {
@@ -17,8 +17,8 @@ Test {
 `;
 
 const start = () => {
-    const parsed = parseYasumuSchemaScript(script);
-    console.log(JSON.stringify(parsed, null, 4));
+  const parsed = parse(script);
+  console.log(JSON.stringify(parsed, null, 4));
 };
 
 start();

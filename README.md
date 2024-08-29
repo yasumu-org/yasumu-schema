@@ -5,7 +5,7 @@ Yasumu Schema Language Parser
 ## Example
 
 ```ts
-import { parseYasumuSchemaScript } from '@yasumu/schema'
+import { parse } from '@yasumu/schema'
 
 const code = `
 Metadata {
@@ -23,6 +23,7 @@ Test {
 }
 `;
 
-const parsed = parseYasumuSchemaScript(script);
-console.log(JSON.stringify(parsed, null, 4));
+const parsed = parse(script);
+
+console.log(parsed);
 ```
