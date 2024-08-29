@@ -1,5 +1,6 @@
 import { YasumuSchemaLexer } from "./lexer";
 import { YasumuSchemaParasableScript } from "./parsable";
+import { YasumuSchemaParasableScriptToType } from "./parsable-typings";
 import { YasumuSchemaParser } from "./parser";
 import { YasumuSchemaScanner } from "./scanner";
 
@@ -86,9 +87,13 @@ export const YasumuSchemaScript = {
     },
 } as const satisfies YasumuSchemaParasableScript;
 
+export type YasumuSchemaScript = YasumuSchemaParasableScriptToType<
+    typeof YasumuSchemaScript
+>;
+
 export const parseYasumuSchemaScript = (content: string) => {
     const lexer = new YasumuSchemaLexer(content);
     const scanner = new YasumuSchemaScanner(lexer);
     const parser = new YasumuSchemaParser(scanner);
-    return parser.parse(YasumuSchemaScript);
+    return parser.parse(YasumuSchemaScript) as YasumuSchemaScript;
 };
