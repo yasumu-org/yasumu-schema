@@ -1,30 +1,23 @@
-const {
-    YasumuSchemaLexer,
-    YasumuSchemaScanner,
-    YasumuSchemaParser,
-    YasumuSchemaSpec,
-} = require("../dist");
+const { parseYasumuSchemaScript } = require("../dist");
 
-const content = `
-Block1 {
-    Hello: "Hello \\u1234"
-    World: null
+const script = `
+Metadata {
+    name: "Test"
+    method: "GET"
 }
 
-Block3 {
-    import "dotenv";
-    const start = () => {};
-    start();
+Request {
+    url: "https://example.com"
+    body: null
 }
 
-Block2 {}
+Test {
+    console.log("tested");
+}
 `;
 
 const start = () => {
-    const lexer = new YasumuSchemaLexer(content);
-    const scanner = new YasumuSchemaScanner(lexer);
-    const parser = new YasumuSchemaParser(scanner);
-    const parsed = parser.parse(YasumuSchemaSpec);
+    const parsed = parseYasumuSchemaScript(script);
     console.log(JSON.stringify(parsed, null, 4));
 };
 
