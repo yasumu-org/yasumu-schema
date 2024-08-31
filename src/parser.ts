@@ -21,7 +21,7 @@ import {
 } from "./tokens";
 
 export class YasumuSchemaParser {
-    currentToken = YasumuSchemaParser._dummyToken;
+    currentToken = DUMMY_TOKEN;
 
     constructor(public readonly scanner: YasumuSchemaScanner) {
         this.advance();
@@ -249,22 +249,25 @@ export class YasumuSchemaParser {
     isEOF() {
         return this.currentToken.type === YasumuSchemaTokenTypes.EOF;
     }
-
-    static _dummyToken: YasumuSchemaToken = {
-        type: YasumuSchemaTokenTypes.EOF,
-        value: "",
-        span: {
-            start: {
-                line: -1,
-                column: -1,
-            },
-            end: {
-                line: -1,
-                column: -1,
-            },
-        },
-    };
 }
+
+const LEFT_CURLY_BRACKET = "{";
+const RIGHT_CURLY_BRACKET = "}";
+
+const DUMMY_TOKEN: YasumuSchemaToken = {
+    type: YasumuSchemaTokenTypes.EOF,
+    value: "",
+    span: {
+        start: {
+            line: -1,
+            column: -1,
+        },
+        end: {
+            line: -1,
+            column: -1,
+        },
+    },
+};
 
 export class YasumuSchemaParserError extends Error {
     constructor(message: string) {
@@ -277,6 +280,3 @@ export class YasumuSchemaUnexpectedParserError extends Error {
         super("This should never be executed");
     }
 }
-
-const LEFT_CURLY_BRACKET = "{";
-const RIGHT_CURLY_BRACKET = "}";

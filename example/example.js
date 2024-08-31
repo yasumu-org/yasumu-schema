@@ -1,4 +1,4 @@
-const { parse } = require('../dist');
+const { YasumuSchemaScriptActions } = require("../dist");
 
 const script = `
 Metadata {
@@ -9,6 +9,7 @@ Metadata {
 Request {
     url: "https://example.com"
     body: null
+    params: {}
 }
 
 Test {
@@ -17,8 +18,10 @@ Test {
 `;
 
 const start = () => {
-  const parsed = parse(script);
-  console.log(JSON.stringify(parsed, null, 4));
+    const parsed = YasumuSchemaScriptActions.parse(script);
+    console.log(JSON.stringify(parsed, null, 4));
+    console.log("");
+    console.log(YasumuSchemaScriptActions.serialize(parsed));
 };
 
 start();

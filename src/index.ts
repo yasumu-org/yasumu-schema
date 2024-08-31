@@ -4,5 +4,6 @@ export * from "./parsable";
 export * from "./parser";
 export * from "./scanner";
 export * from "./schema";
+export * from "./serializer";
 export * from "./tokens";
 export * from "./utils";

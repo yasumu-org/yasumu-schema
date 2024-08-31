@@ -3,6 +3,7 @@ import { YasumuSchemaParasableScript } from "./parsable";
 import { YasumuSchemaParasableScriptToType } from "./parsable-typings";
 import { YasumuSchemaParser } from "./parser";
 import { YasumuSchemaScanner } from "./scanner";
+import { YasumuSchemaSerializer } from "./serializer";
 
 export const YasumuSchemaScript = {
     Metadata: {
@@ -91,9 +92,15 @@ export type YasumuSchemaScript = YasumuSchemaParasableScriptToType<
     typeof YasumuSchemaScript
 >;
 
-export const parse = (content: string) => {
-    const lexer = new YasumuSchemaLexer(content);
-    const scanner = new YasumuSchemaScanner(lexer);
-    const parser = new YasumuSchemaParser(scanner);
-    return parser.parse(YasumuSchemaScript) as YasumuSchemaScript;
+export const YasumuSchemaScriptActions = {
+    parse: (content: string) => {
+        const lexer = new YasumuSchemaLexer(content);
+        const scanner = new YasumuSchemaScanner(lexer);
+        const parser = new YasumuSchemaParser(scanner);
+        return parser.parse(YasumuSchemaScript) as YasumuSchemaScript;
+    },
+    serialize: (value: YasumuSchemaScript) => {
+        const serializer = new YasumuSchemaSerializer();
+        return serializer.serialize(YasumuSchemaScript, value);
+    },
 };
